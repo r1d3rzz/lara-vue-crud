@@ -7,15 +7,16 @@
 
     <title>Laravel</title>
 
-    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href={{mix("/css/app.css")}}>
 </head>
 
 <body class="antialiased">
     <div id="app">
-        <example-component></example-component>
+        <product-component />
     </div>
 
-    <script src="/js/app.js"></script>
+    <script src={{mix("/js/app.js")}}></script>
+    <script src="https://kit.fontawesome.com/2c87f61656.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
