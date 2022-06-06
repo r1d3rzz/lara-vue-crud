@@ -29,14 +29,24 @@
               <h4>Create</h4>
             </div>
             <div class="card-body">
-              <form>
+              <form @submit.prevent="store">
                 <div class="form-group my-3">
                   <label for="name">Name :</label>
-                  <input type="text" class="form-control" id="name" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    v-model="product.name"
+                  />
                 </div>
                 <div class="form-group my-3">
                   <label for="price">Price :</label>
-                  <input type="number" class="form-control" id="price" />
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    v-model="product.price"
+                  />
                 </div>
                 <button class="btn btn-primary">
                   <i class="fas fa-save me-2"></i> Save
@@ -89,6 +99,10 @@ export default {
   data() {
     return {
       products: [],
+      product: {
+        name: "",
+        price: "",
+      },
     };
   },
 
@@ -98,6 +112,16 @@ export default {
         .get("/api/products")
         .then((res) => (this.products = res.data))
         .catch((err) => console.log(err));
+    },
+
+    store() {
+      axios
+        .post("/api/product/store", this.product)
+        .then(() => {
+          this.view();
+          this.product = { name: "", price: "" };
+        })
+        .catch();
     },
   },
 
