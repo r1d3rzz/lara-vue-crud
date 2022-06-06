@@ -59,38 +59,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Phone</td>
-                <td>25</td>
-                <td>
-                  <button class="btn btn-sm btn-success">
-                    <i class="fas fa-edit me-2"></i>Edit
-                  </button>
-                  <button class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt me-2"></i>Delete
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>2</td>
-                <td>Laptop</td>
-                <td>35</td>
-                <td>
-                  <button class="btn btn-sm btn-success">
-                    <i class="fas fa-edit me-2"></i>Edit
-                  </button>
-                  <button class="btn btn-sm btn-danger">
-                    <i class="fas fa-trash-alt me-2"></i>Delete
-                  </button>
-                </td>
-              </tr>
-
-              <tr>
-                <td>3</td>
-                <td>XBox</td>
-                <td>40</td>
+              <tr v-for="product in products" :key="product.id">
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }}</td>
                 <td>
                   <button class="btn btn-sm btn-success">
                     <i class="fas fa-edit me-2"></i>Edit
@@ -110,7 +82,29 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+
+export default {
+  name: "ProductComponent",
+  data() {
+    return {
+      products: [],
+    };
+  },
+
+  methods: {
+    view() {
+      axios
+        .get("/api/products")
+        .then((res) => (this.products = res.data))
+        .catch((err) => console.log(err));
+    },
+  },
+
+  created() {
+    this.view();
+  },
+};
 </script>
 
 <style>

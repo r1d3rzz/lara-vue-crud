@@ -5401,6 +5401,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -5484,35 +5486,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "ProductComponent",
+  data: function data() {
+    return {
+      products: []
+    };
+  },
+  methods: {
+    view: function view() {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/products").then(function (res) {
+        return _this.products = res.data;
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    }
+  },
+  created: function created() {
+    this.view();
+  }
+});
 
 /***/ }),
 
@@ -28240,153 +28236,133 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "productComponent" }, [
+    _c("div", { staticClass: "container my-5" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-8" }, [
+          _c("table", { staticClass: "table table-striped" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c(
+              "tbody",
+              _vm._l(_vm.products, function (product) {
+                return _c("tr", { key: product.id }, [
+                  _c("td", [_vm._v(_vm._s(product.id))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(product.name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(product.price))]),
+                  _vm._v(" "),
+                  _vm._m(3, true),
+                ])
+              }),
+              0
+            ),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "productComponent" }, [
-      _c("div", { staticClass: "container my-5" }, [
-        _c("div", { staticClass: "row d-flex justify-content-end my-3" }, [
-          _c("div", { staticClass: "col-md-5" }, [
-            _c("button", { staticClass: "btn btn-primary" }, [
-              _c("i", { staticClass: "fas fa-plus-circle me-2" }),
-              _vm._v(" Create\n        "),
-            ]),
-          ]),
+    return _c("div", { staticClass: "row d-flex justify-content-end my-3" }, [
+      _c("div", { staticClass: "col-md-5" }, [
+        _c("button", { staticClass: "btn btn-primary" }, [
+          _c("i", { staticClass: "fas fa-plus-circle me-2" }),
+          _vm._v(" Create\n        "),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-3" }, [
+        _c("div", { staticClass: "input-group" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Searh Product" },
+          }),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "input-group" }, [
-              _c("input", {
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Searh Product" },
-              }),
-              _vm._v(" "),
-              _c("button", { staticClass: "btn btn-primary" }, [
-                _c("i", { staticClass: "fas fa-search" }),
-              ]),
-            ]),
+          _c("button", { staticClass: "btn btn-primary" }, [
+            _c("i", { staticClass: "fas fa-search" }),
           ]),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("div", { staticClass: "card" }, [
+        _c("div", { staticClass: "card-header" }, [
+          _c("h4", [_vm._v("Create")]),
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", [_vm._v("Create")]),
-              ]),
+        _c("div", { staticClass: "card-body" }, [
+          _c("form", [
+            _c("div", { staticClass: "form-group my-3" }, [
+              _c("label", { attrs: { for: "name" } }, [_vm._v("Name :")]),
               _vm._v(" "),
-              _c("div", { staticClass: "card-body" }, [
-                _c("form", [
-                  _c("div", { staticClass: "form-group my-3" }, [
-                    _c("label", { attrs: { for: "name" } }, [_vm._v("Name :")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "text", id: "name" },
-                    }),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "form-group my-3" }, [
-                    _c("label", { attrs: { for: "price" } }, [
-                      _vm._v("Price :"),
-                    ]),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "form-control",
-                      attrs: { type: "number", id: "price" },
-                    }),
-                  ]),
-                  _vm._v(" "),
-                  _c("button", { staticClass: "btn btn-primary" }, [
-                    _c("i", { staticClass: "fas fa-save me-2" }),
-                    _vm._v(" Save\n              "),
-                  ]),
-                ]),
-              ]),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "text", id: "name" },
+              }),
             ]),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-8" }, [
-            _c("table", { staticClass: "table table-striped" }, [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", [_vm._v("ID")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Name")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Price")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Actions")]),
-                ]),
-              ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group my-3" }, [
+              _c("label", { attrs: { for: "price" } }, [_vm._v("Price :")]),
               _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [_vm._v("1")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Phone")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("25")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("button", { staticClass: "btn btn-sm btn-success" }, [
-                      _c("i", { staticClass: "fas fa-edit me-2" }),
-                      _vm._v("Edit\n                "),
-                    ]),
-                    _vm._v(" "),
-                    _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-                      _c("i", { staticClass: "fas fa-trash-alt me-2" }),
-                      _vm._v("Delete\n                "),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("2")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("Laptop")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("35")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("button", { staticClass: "btn btn-sm btn-success" }, [
-                      _c("i", { staticClass: "fas fa-edit me-2" }),
-                      _vm._v("Edit\n                "),
-                    ]),
-                    _vm._v(" "),
-                    _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-                      _c("i", { staticClass: "fas fa-trash-alt me-2" }),
-                      _vm._v("Delete\n                "),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("tr", [
-                  _c("td", [_vm._v("3")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("XBox")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("40")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("button", { staticClass: "btn btn-sm btn-success" }, [
-                      _c("i", { staticClass: "fas fa-edit me-2" }),
-                      _vm._v("Edit\n                "),
-                    ]),
-                    _vm._v(" "),
-                    _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-                      _c("i", { staticClass: "fas fa-trash-alt me-2" }),
-                      _vm._v("Delete\n                "),
-                    ]),
-                  ]),
-                ]),
-              ]),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "number", id: "price" },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("button", { staticClass: "btn btn-primary" }, [
+              _c("i", { staticClass: "fas fa-save me-2" }),
+              _vm._v(" Save\n              "),
             ]),
           ]),
         ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Price")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("button", { staticClass: "btn btn-sm btn-success" }, [
+        _c("i", { staticClass: "fas fa-edit me-2" }),
+        _vm._v("Edit\n                "),
+      ]),
+      _vm._v(" "),
+      _c("button", { staticClass: "btn btn-sm btn-danger" }, [
+        _c("i", { staticClass: "fas fa-trash-alt me-2" }),
+        _vm._v("Delete\n                "),
       ]),
     ])
   },
@@ -40616,6 +40592,18 @@ Vue.compile = compileToFunctions;
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	
