@@ -3,8 +3,9 @@
     <div class="container my-5">
       <div class="row d-flex justify-content-end my-3">
         <div class="col-md-5">
-          <button class="btn btn-primary">
-            <i class="fas fa-plus-circle me-2"></i> Create
+          <button class="btn btn-primary" @click="create">
+            <i class="fas fa-plus-circle me-2"></i>
+            Create
           </button>
         </div>
         <div class="col-md-3">
@@ -26,10 +27,10 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-header">
-              <h4>Create</h4>
+              <h4>{{ isEditMode ? "Edit" : "Create" }}</h4>
             </div>
             <div class="card-body">
-              <form @submit.prevent="store">
+              <form @submit.prevent="isEditMode ? update() : store()">
                 <div class="form-group my-3">
                   <label for="name">Name :</label>
                   <input
@@ -74,10 +75,13 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }}</td>
                 <td>
-                  <button class="btn btn-sm btn-success">
+                  <button class="btn btn-sm btn-success" @click="edit(product)">
                     <i class="fas fa-edit me-2"></i>Edit
                   </button>
-                  <button class="btn btn-sm btn-danger">
+                  <button
+                    class="btn btn-sm btn-danger"
+                    @click="deleteBtn(product.id)"
+                  >
                     <i class="fas fa-trash-alt me-2"></i>Delete
                   </button>
                 </td>
@@ -98,8 +102,10 @@ export default {
   name: "ProductComponent",
   data() {
     return {
+      isEditMode: false,
       products: [],
       product: {
+        id: "",
         name: "",
         price: "",
       },
@@ -119,9 +125,40 @@ export default {
         .post("/api/product/store", this.product)
         .then(() => {
           this.view();
-          this.product = { name: "", price: "" };
+          this.product = { id: "", name: "", price: "" };
         })
         .catch();
+    },
+
+    create() {
+      this.isEditMode = false;
+      this.product = { id: "", name: "", price: "" };
+    },
+
+    edit(product) {
+      this.isEditMode = true;
+      this.product.id = product.id;
+      this.product.name = product.name;
+      this.product.price = product.price;
+    },
+
+    update() {
+      axios
+        .put(`/api/product/${this.product.id}`, this.product)
+        .then(() => {
+          this.view();
+          this.create();
+        })
+        .catch((err) => console.log(err));
+    },
+
+    deleteBtn(id) {
+      if (!confirm("Are you sure to delete?")) return;
+
+      axios
+        .delete(`/api/product/${id}`)
+        .then(() => this.view())
+        .catch((err) => console.log(err));
     },
   },
 

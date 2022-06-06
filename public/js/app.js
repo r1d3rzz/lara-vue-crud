@@ -5496,13 +5496,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ProductComponent",
   data: function data() {
     return {
+      isEditMode: false,
       products: [],
       product: {
+        id: "",
         name: "",
         price: ""
       }
@@ -5525,10 +5531,46 @@ __webpack_require__.r(__webpack_exports__);
         _this2.view();
 
         _this2.product = {
+          id: "",
           name: "",
           price: ""
         };
       })["catch"]();
+    },
+    create: function create() {
+      this.isEditMode = false;
+      this.product = {
+        id: "",
+        name: "",
+        price: ""
+      };
+    },
+    edit: function edit(product) {
+      this.isEditMode = true;
+      this.product.id = product.id;
+      this.product.name = product.name;
+      this.product.price = product.price;
+    },
+    update: function update() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default().put("/api/product/".concat(this.product.id), this.product).then(function () {
+        _this3.view();
+
+        _this3.create();
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    deleteBtn: function deleteBtn(id) {
+      var _this4 = this;
+
+      if (!confirm("Are you sure to delete?")) return;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()["delete"]("/api/product/".concat(id)).then(function () {
+        return _this4.view();
+      })["catch"](function (err) {
+        return console.log(err);
+      });
     }
   },
   created: function created() {
@@ -28264,12 +28306,27 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "productComponent" }, [
     _c("div", { staticClass: "container my-5" }, [
-      _vm._m(0),
+      _c("div", { staticClass: "row d-flex justify-content-end my-3" }, [
+        _c("div", { staticClass: "col-md-5" }, [
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", on: { click: _vm.create } },
+            [
+              _c("i", { staticClass: "fas fa-plus-circle me-2" }),
+              _vm._v("\n          Create\n        "),
+            ]
+          ),
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-4" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(1),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", [_vm._v(_vm._s(_vm.isEditMode ? "Edit" : "Create"))]),
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c(
@@ -28278,7 +28335,7 @@ var render = function () {
                   on: {
                     submit: function ($event) {
                       $event.preventDefault()
-                      return _vm.store.apply(null, arguments)
+                      _vm.isEditMode ? _vm.update() : _vm.store()
                     },
                   },
                 },
@@ -28337,7 +28394,7 @@ var render = function () {
                     }),
                   ]),
                   _vm._v(" "),
-                  _vm._m(2),
+                  _vm._m(1),
                 ]
               ),
             ]),
@@ -28346,7 +28403,7 @@ var render = function () {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-8" }, [
           _c("table", { staticClass: "table table-striped" }, [
-            _vm._m(3),
+            _vm._m(2),
             _vm._v(" "),
             _c(
               "tbody",
@@ -28358,7 +28415,39 @@ var render = function () {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(product.price))]),
                   _vm._v(" "),
-                  _vm._m(4, true),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-success",
+                        on: {
+                          click: function ($event) {
+                            return _vm.edit(product)
+                          },
+                        },
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-edit me-2" }),
+                        _vm._v("Edit\n                "),
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-sm btn-danger",
+                        on: {
+                          click: function ($event) {
+                            return _vm.deleteBtn(product.id)
+                          },
+                        },
+                      },
+                      [
+                        _c("i", { staticClass: "fas fa-trash-alt me-2" }),
+                        _vm._v("Delete\n                "),
+                      ]
+                    ),
+                  ]),
                 ])
               }),
               0
@@ -28374,34 +28463,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row d-flex justify-content-end my-3" }, [
-      _c("div", { staticClass: "col-md-5" }, [
+    return _c("div", { staticClass: "col-md-3" }, [
+      _c("div", { staticClass: "input-group" }, [
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { type: "text", placeholder: "Searh Product" },
+        }),
+        _vm._v(" "),
         _c("button", { staticClass: "btn btn-primary" }, [
-          _c("i", { staticClass: "fas fa-plus-circle me-2" }),
-          _vm._v(" Create\n        "),
+          _c("i", { staticClass: "fas fa-search" }),
         ]),
       ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-3" }, [
-        _c("div", { staticClass: "input-group" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "text", placeholder: "Searh Product" },
-          }),
-          _vm._v(" "),
-          _c("button", { staticClass: "btn btn-primary" }, [
-            _c("i", { staticClass: "fas fa-search" }),
-          ]),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", [_vm._v("Create")]),
     ])
   },
   function () {
@@ -28426,22 +28498,6 @@ var staticRenderFns = [
         _c("th", [_vm._v("Price")]),
         _vm._v(" "),
         _c("th", [_vm._v("Actions")]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-sm btn-success" }, [
-        _c("i", { staticClass: "fas fa-edit me-2" }),
-        _vm._v("Edit\n                "),
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-sm btn-danger" }, [
-        _c("i", { staticClass: "fas fa-trash-alt me-2" }),
-        _vm._v("Delete\n                "),
       ]),
     ])
   },
