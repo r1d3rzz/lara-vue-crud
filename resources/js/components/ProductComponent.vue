@@ -60,7 +60,7 @@
 
         <!--Table-->
         <div class="col-md-8">
-          <table class="table table-striped">
+          <table class="table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -70,7 +70,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="product in products" :key="product.id">
+              <tr v-for="product in products.data" :key="product.id">
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
                 <td>{{ product.price }}</td>
@@ -88,6 +88,14 @@
               </tr>
             </tbody>
           </table>
+
+          <div class="d-flex justify-content-start">
+            <advanced-laravel-vue-paginate
+              class="mt-2 shadow-sm"
+              :data="products"
+              @paginateTo="view"
+            />
+          </div>
         </div>
         <!--End Table-->
       </div>
@@ -103,7 +111,7 @@ export default {
   data() {
     return {
       isEditMode: false,
-      products: [],
+      products: {},
       product: {
         id: "",
         name: "",
@@ -113,9 +121,9 @@ export default {
   },
 
   methods: {
-    view() {
+    view(page = 1) {
       axios
-        .get("/api/products")
+        .get("/api/products?page=" + page)
         .then((res) => (this.products = res.data))
         .catch((err) => console.log(err));
     },

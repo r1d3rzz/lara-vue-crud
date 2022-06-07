@@ -28,6 +28,12 @@ Vue.component(
     require("./components/ProductComponent.vue").default
 );
 
+//npm install advanced-laravel-vue-paginate --save
+Vue.use(
+    "advanced-laravel-vue-paginate",
+    require("advanced-laravel-vue-paginate")
+);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
