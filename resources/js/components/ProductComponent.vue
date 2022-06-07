@@ -8,18 +8,23 @@
             Create
           </button>
         </div>
+        <!--Search Product-->
         <div class="col-md-3">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Searh Product"
-            />
-            <button class="btn btn-primary">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
+          <form @submit.prevent="view">
+            <div class="input-group">
+              <input
+                type="text"
+                v-model="search"
+                class="form-control"
+                placeholder="Searh Product"
+              />
+              <button class="btn btn-primary">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+          </form>
         </div>
+        <!--end Search-->
       </div>
 
       <div class="row">
@@ -112,6 +117,7 @@ export default {
     return {
       isEditMode: false,
       products: {},
+      search: "",
       product: {
         id: "",
         name: "",
@@ -123,7 +129,7 @@ export default {
   methods: {
     view(page = 1) {
       axios
-        .get("/api/products?page=" + page)
+        .get(`/api/products?page=${page}&search=${this.search}`)
         .then((res) => (this.products = res.data))
         .catch((err) => console.log(err));
     },

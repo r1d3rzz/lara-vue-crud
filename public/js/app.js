@@ -7462,6 +7462,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ProductComponent",
@@ -7469,6 +7474,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isEditMode: false,
       products: {},
+      search: "",
       product: {
         id: "",
         name: "",
@@ -7481,7 +7487,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/products?page=" + page).then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/products?page=".concat(page, "&search=").concat(this.search)).then(function (res) {
         return _this.products = res.data;
       })["catch"](function (err) {
         return console.log(err);
@@ -30283,7 +30289,46 @@ var render = function () {
           ),
         ]),
         _vm._v(" "),
-        _vm._m(0),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function ($event) {
+                  $event.preventDefault()
+                  return _vm.view.apply(null, arguments)
+                },
+              },
+            },
+            [
+              _c("div", { staticClass: "input-group" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.search,
+                      expression: "search",
+                    },
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Searh Product" },
+                  domProps: { value: _vm.search },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.search = $event.target.value
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _vm._m(0),
+              ]),
+            ]
+          ),
+        ]),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
@@ -30441,17 +30486,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-3" }, [
-      _c("div", { staticClass: "input-group" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", placeholder: "Searh Product" },
-        }),
-        _vm._v(" "),
-        _c("button", { staticClass: "btn btn-primary" }, [
-          _c("i", { staticClass: "fas fa-search" }),
-        ]),
-      ]),
+    return _c("button", { staticClass: "btn btn-primary" }, [
+      _c("i", { staticClass: "fas fa-search" }),
     ])
   },
   function () {
