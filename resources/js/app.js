@@ -3,6 +3,13 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
+import {
+    Button,
+    HasError,
+    AlertError,
+    AlertErrors,
+    AlertSuccess,
+} from "vform/src/components/bootstrap5";
 
 require("./bootstrap");
 
@@ -33,6 +40,12 @@ Vue.use(
     "advanced-laravel-vue-paginate",
     require("advanced-laravel-vue-paginate")
 );
+
+Vue.component(Button.name, Button);
+Vue.component(HasError.name, HasError);
+Vue.component(AlertError.name, AlertError);
+Vue.component(AlertErrors.name, AlertErrors);
+Vue.component(AlertSuccess.name, AlertSuccess);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

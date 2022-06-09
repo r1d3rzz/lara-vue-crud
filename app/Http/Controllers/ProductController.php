@@ -25,16 +25,12 @@ class ProductController extends Controller
         return "product not found";
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        $validator = Validator::make(request()->all(),[
+        $request->validate([
             'name' => ['required','string',Rule::unique('products','name')],
             'price' => 'required|numeric',
         ]);
-
-        if($validator->fails()){
-            return $validator->errors();
-        }
 
         $product =  Product::create([
             'name' => request('name'),
@@ -48,15 +44,10 @@ class ProductController extends Controller
     {
         $exitingProduct = Product::find($id);
         if($exitingProduct){
-
-            $validator = Validator::make(request()->all(),[
-                'name' => ['nullable','string',Rule::unique('products','name')->ignore($id)],
-                'price' => ['nullable','numeric'],
+            request()->validate([
+                "name" => ['required','string',Rule::unique('products','name')->ignore($id)],
+                'price' => ['required','numeric'],
             ]);
-
-            if($validator->fails()){
-                return $validator->errors();
-            }
 
             $exitingProduct->update(request()->only('name','price'));
 

@@ -18,7 +18,7 @@
                 class="form-control"
                 placeholder="Searh Product"
               />
-              <button class="btn btn-primary">
+              <button :form="form" class="btn btn-primary">
                 <i class="fas fa-search"></i>
               </button>
             </div>
@@ -35,24 +35,31 @@
               <h4>{{ isEditMode ? "Edit" : "Create" }}</h4>
             </div>
             <div class="card-body">
-              <form @submit.prevent="isEditMode ? update() : store()">
+              <form
+                @submit.prevent="isEditMode ? update() : store()"
+                @keydown="form.onKeydown($event)"
+              >
                 <div class="form-group my-3">
                   <label for="name">Name :</label>
                   <input
-                    type="text"
-                    class="form-control"
                     id="name"
-                    v-model="product.name"
+                    v-model="form.name"
+                    type="text"
+                    name="name"
+                    class="form-control"
                   />
+                  <HasError :form="form" field="name" />
                 </div>
                 <div class="form-group my-3">
                   <label for="price">Price :</label>
                   <input
-                    type="number"
-                    class="form-control"
                     id="price"
-                    v-model="product.price"
+                    v-model="form.price"
+                    type="number"
+                    name="price"
+                    class="form-control"
                   />
+                  <HasError :form="form" field="price" />
                 </div>
                 <button class="btn btn-primary">
                   <i class="fas fa-save me-2"></i> Save
@@ -78,7 +85,7 @@
               <tr v-for="product in products.data" :key="product.id">
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
-                <td>{{ product.price }}</td>
+                <td>{{ product.price }}.00</td>
                 <td>
                   <button class="btn btn-sm btn-success" @click="edit(product)">
                     <i class="fas fa-edit me-2"></i>Edit
@@ -110,6 +117,7 @@
 
 <script>
 import axios from "axios";
+import { Form } from "vform";
 
 export default {
   name: "ProductComponent",
@@ -118,11 +126,11 @@ export default {
       isEditMode: false,
       products: {},
       search: "",
-      product: {
+      form: new Form({
         id: "",
         name: "",
         price: "",
-      },
+      }),
     };
   },
 
@@ -135,35 +143,37 @@ export default {
     },
 
     store() {
-      axios
-        .post("/api/product/store", this.product)
+      this.form
+        .post("/api/product/store")
         .then(() => {
           this.view();
-          this.product = { id: "", name: "", price: "" };
+          this.form.reset();
         })
-        .catch();
+        .catch((err) => console.log(err.message));
     },
 
     create() {
       this.isEditMode = false;
-      this.product = { id: "", name: "", price: "" };
+      this.form.reset();
     },
 
     edit(product) {
       this.isEditMode = true;
-      this.product.id = product.id;
-      this.product.name = product.name;
-      this.product.price = product.price;
+      this.form.fill({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+      });
     },
 
     update() {
-      axios
-        .put(`/api/product/${this.product.id}`, this.product)
+      this.form
+        .put(`/api/product/${this.form.id}`)
         .then(() => {
           this.view();
           this.create();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err.message));
     },
 
     deleteBtn(id) {
