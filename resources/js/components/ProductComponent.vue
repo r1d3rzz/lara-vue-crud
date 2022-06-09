@@ -148,6 +148,10 @@ export default {
         .then(() => {
           this.view();
           this.form.reset();
+          Toast.fire({
+            icon: "success",
+            title: "Created new Product successfully",
+          });
         })
         .catch((err) => console.log(err.message));
     },
@@ -172,17 +176,38 @@ export default {
         .then(() => {
           this.view();
           this.create();
+          Toast.fire({
+            icon: "success",
+            title: "Updated successfully",
+          });
         })
         .catch((err) => console.log(err.message));
     },
 
     deleteBtn(id) {
-      if (!confirm("Are you sure to delete?")) return;
-
-      axios
-        .delete(`/api/product/${id}`)
-        .then(() => this.view())
-        .catch((err) => console.log(err));
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .delete(`/api/product/${id}`)
+            .then(() => {
+              this.view();
+              Swal.fire(
+                "Deleted!",
+                "Your Product has been deleted.",
+                "success"
+              );
+            })
+            .catch((err) => console.log(err));
+        }
+      });
     },
   },
 
